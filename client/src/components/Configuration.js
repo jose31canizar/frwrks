@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { ScrollView, View, Text, StyleSheet, Dimensions } from "react-native";
+import Instrument from "./Instrument";
+import Filter from "./Filter";
+import CustomIcon from "../assets/Icon";
 
 const SequenceDisplay = props => (
   <View style={styles.sequenceDisplay}>
@@ -9,7 +12,9 @@ const SequenceDisplay = props => (
 
 const InstrumentRack = props => (
   <View style={styles.instrumentRack}>
-    <Text style={styles.text}>Sequence</Text>
+    <Instrument />
+    <CustomIcon name="Connection" fill="#111" stroke="black" />
+    <Filter />
   </View>
 );
 
@@ -17,10 +22,10 @@ export default class Configuration extends Component {
   render() {
     const cells = Array.apply(null, { length: 16 }).map(Number.call, Number);
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <SequenceDisplay cells={cells} />
         <InstrumentRack />
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     backgroundColor: "#ECAA83",
-    height: Dimensions.get("screen").height / 4,
+    paddingVertical: 5,
     alignItems: "center",
     paddingHorizontal: 10
   },
