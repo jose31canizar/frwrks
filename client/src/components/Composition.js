@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
+import { Tabs, Tab, TabHeading } from "native-base";
 import CustomIcon from "../assets/Icon";
 
 const PlayButton = props => (
@@ -25,7 +26,12 @@ const PlayButton = props => (
 );
 
 const TrackBeat = props => (
-  <View style={styles.trackBeat} index={props.index} />
+  <View
+    style={[
+      styles.trackBeat,
+      { backgroundColor: props.playing[props.index] ? "#888" : "black" }
+    ]}
+  />
 );
 
 const Track = props => (
@@ -36,7 +42,15 @@ const Track = props => (
       play={props.play}
       index={props.index}
     />
-    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((beat, i) => <TrackBeat key={i} />)}
+    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((beat, i) => (
+      <TrackBeat key={i} index={props.index} playing={props.playing} />
+    ))}
+  </View>
+);
+
+const EnsembleButton = props => (
+  <View style={styles.ensembleButton}>
+    <Text style={styles.text}>Ensemble</Text>
   </View>
 );
 
@@ -50,11 +64,9 @@ export default class Composition extends Component {
     this.pause = this.pause.bind(this);
   }
   play(i) {
-    console.log("play");
     this.setState((prevState, props) => {
       var newPlaying = prevState.playing;
       newPlaying[i] = true;
-      console.log(newPlaying);
       return { playing: newPlaying };
     });
   }
@@ -62,29 +74,55 @@ export default class Composition extends Component {
     this.setState((prevState, props) => {
       var newPlaying = prevState.playing;
       newPlaying[i] = false;
-      console.log(newPlaying);
       return { playing: newPlaying };
     });
   }
   render() {
     const tracks = [0, 1, 2, 3, 4, 5, 6, 7];
+
+    const tabs = [0, 1, 2];
     return (
       <View style={styles.container}>
-        {tracks.map((track, i) => (
-          <Track
-            key={i}
-            index={i}
-            playing={this.state.playing}
-            play={this.play}
-            pause={this.pause}
-          />
-        ))}
+        <Tabs initialPage={1}>
+          {tabs.map((tab, i) => (
+            <Tab
+              key={i}
+              heading={
+                <TabHeading>
+                  <EnsembleButton name="ensemble" />
+                </TabHeading>
+              }
+            >
+              {tracks.map((track, i) => (
+                <Track
+                  key={i}
+                  index={i}
+                  playing={this.state.playing}
+                  play={this.play}
+                  pause={this.pause}
+                />
+              ))}
+            </Tab>
+          ))}
+        </Tabs>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontFamily: "Futura",
+    fontWeight: "100",
+    fontSize: 13,
+    color: "#cecece"
+  },
+  ensembleButton: {
+    borderWidth: 2,
+    borderColor: "#cecece",
+    borderRadius: 5,
+    padding: 4
+  },
   playButton: {
     paddingHorizontal: 10
   },

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { ScrollView, View, Text, StyleSheet, Dimensions } from "react-native";
-import Instrument from "./Instrument";
+import CustomInstrument from "./Instrument";
 import Filter from "./Filter";
 import CustomIcon from "../assets/Icon";
+// import { Orchestra } from "react-orchestra/native";
+// import { default as Sound } from "react-native-sound";
 
 const SequenceDisplay = props => (
   <View style={styles.sequenceDisplay}>
@@ -12,18 +14,27 @@ const SequenceDisplay = props => (
 
 const InstrumentRack = props => (
   <View style={styles.instrumentRack}>
-    <Instrument />
+    <CustomInstrument />
     <CustomIcon name="Connection" fill="#111" stroke="black" />
+    <Filter />
+    <Filter />
+    <Filter />
     <Filter />
   </View>
 );
 
 export default class Configuration extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     const cells = Array.apply(null, { length: 16 }).map(Number.call, Number);
     return (
       <View style={styles.container}>
         <SequenceDisplay cells={cells} />
+        <InstrumentRack />
         <InstrumentRack />
       </View>
     );

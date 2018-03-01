@@ -147,7 +147,6 @@ const TabBar = TabNavigator(
       ),
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
-        console.log(focused);
         let iconName;
         let fill;
         let strokeWidth;
